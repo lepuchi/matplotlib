@@ -157,11 +157,6 @@ class BezierPath(Line2D):
         renderer.close_group('line2d')
 
 
-@cbook.deprecated("3.1")
-class UnimplementedException(Exception):
-    pass
-
-
 class AttributeCopier:
     @cbook.deprecated("3.2")
     def __init__(self, ref_artist, klass=Artist):
@@ -1219,7 +1214,7 @@ class AxisArtist(martist.Artist):
 
     @martist.allow_rasterization
     def draw(self, renderer):
-        """Draw the axis lines, tick lines and labels."""
+        # docstring inherited
 
         if not self.get_visible():
             return

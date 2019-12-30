@@ -535,8 +535,7 @@ class Line2D(Artist):
               half of the marker is filled with *markerfacecoloralt*.
             - 'none': No filling.
 
-            For examples see
-            :doc:`/gallery/lines_bars_and_markers/marker_fillstyle_reference`.
+            For examples see :ref:`marker_fill_styles`.
         """
         self._marker.set_fillstyle(fs)
         self.stale = True
@@ -748,7 +747,7 @@ class Line2D(Artist):
 
     @allow_rasterization
     def draw(self, renderer):
-        # docstring inherited from Artist.draw.
+        # docstring inherited
 
         if not self.get_visible():
             return

@@ -168,9 +168,7 @@ class Text(Artist):
         self.update(kwargs)
 
     def update(self, kwargs):
-        """
-        Update properties from a dictionary.
-        """
+        # docstring inherited
         # Update bbox last, as it depends on font properties.
         sentinel = object()  # bbox can be None, so use another sentinel.
         bbox = kwargs.pop("bbox", sentinel)
@@ -669,9 +667,7 @@ class Text(Artist):
 
     @artist.allow_rasterization
     def draw(self, renderer):
-        """
-        Draws the `.Text` object to the given *renderer*.
-        """
+        # docstring inherited
         if renderer is not None:
             self._renderer = renderer
         if not self.get_visible():
@@ -1945,10 +1941,7 @@ class Annotation(Text, _AnnotationBase):
 
     @artist.allow_rasterization
     def draw(self, renderer):
-        """
-        Draw the :class:`Annotation` object to the given *renderer*.
-        """
-
+        # docstring inherited
         if renderer is not None:
             self._renderer = renderer
         if not self.get_visible():

@@ -5283,17 +5283,13 @@ def test_length_one_hist():
     ax.hist([1])
 
 
-def test_pathological_hexbin():
+def test_pathological_hexbin(recwarn):
     # issue #2863
-    out = io.BytesIO()
-
-    with warnings.catch_warnings(record=True) as w:
-        warnings.simplefilter("always")
-        mylist = [10] * 100
-        fig, ax = plt.subplots(1, 1)
-        ax.hexbin(mylist, mylist)
-        fig.savefig(out)
-        assert len(w) == 0
+    mylist = [10] * 100
+    fig, ax = plt.subplots(1, 1)
+    ax.hexbin(mylist, mylist)
+    fig.savefig(io.BytesIO())
+    assert len(recwarn) == 0
 
 
 def test_color_None():
@@ -5435,13 +5431,11 @@ def test_square_plot():
     ax.axis('square')
     xlim, ylim = ax.get_xlim(), ax.get_ylim()
     assert np.diff(xlim) == np.diff(ylim)
-    assert ax.get_aspect() == 'equal'
+    assert ax.get_aspect() == 1
     assert_array_almost_equal(
-            ax.get_position(original=True).extents,
-            np.array((0.125, 0.1, 0.9, 0.9)))
+        ax.get_position(original=True).extents, (0.125, 0.1, 0.9, 0.9))
     assert_array_almost_equal(
-        ax.get_position(original=False).extents,
-        np.array((0.2125, 0.1, 0.8125, 0.9)))
+        ax.get_position(original=False).extents, (0.2125, 0.1, 0.8125, 0.9))
 
 
 def test_no_None():

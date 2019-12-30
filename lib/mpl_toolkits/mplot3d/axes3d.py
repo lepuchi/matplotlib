@@ -578,14 +578,10 @@ class Axes3D(Axes):
         if right is None and np.iterable(left):
             left, right = left
         if xmin is not None:
-            cbook.warn_deprecated('3.0', name='`xmin`',
-                                  alternative='`left`', obj_type='argument')
             if left is not None:
                 raise TypeError('Cannot pass both `xmin` and `left`')
             left = xmin
         if xmax is not None:
-            cbook.warn_deprecated('3.0', name='`xmax`',
-                                  alternative='`right`', obj_type='argument')
             if right is not None:
                 raise TypeError('Cannot pass both `xmax` and `right`')
             right = xmax
@@ -636,14 +632,10 @@ class Axes3D(Axes):
         if top is None and np.iterable(bottom):
             bottom, top = bottom
         if ymin is not None:
-            cbook.warn_deprecated('3.0', name='`ymin`',
-                                  alternative='`bottom`', obj_type='argument')
             if bottom is not None:
                 raise TypeError('Cannot pass both `ymin` and `bottom`')
             bottom = ymin
         if ymax is not None:
-            cbook.warn_deprecated('3.0', name='`ymax`',
-                                  alternative='`top`', obj_type='argument')
             if top is not None:
                 raise TypeError('Cannot pass both `ymax` and `top`')
             top = ymax
@@ -695,14 +687,10 @@ class Axes3D(Axes):
         if top is None and np.iterable(bottom):
             bottom, top = bottom
         if zmin is not None:
-            cbook.warn_deprecated('3.0', name='`zmin`',
-                                  alternative='`bottom`', obj_type='argument')
             if bottom is not None:
                 raise TypeError('Cannot pass both `zmin` and `bottom`')
             bottom = zmin
         if zmax is not None:
-            cbook.warn_deprecated('3.0', name='`zmax`',
-                                  alternative='`top`', obj_type='argument')
             if top is not None:
                 raise TypeError('Cannot pass both `zmax` and `top`')
             top = zmax
@@ -1074,9 +1062,27 @@ class Axes3D(Axes):
         if event.inaxes == self:
             self.button_pressed = event.button
             self.sx, self.sy = event.xdata, event.ydata
+            toolbar = getattr(self.figure.canvas, "toolbar")
+            if toolbar and toolbar._nav_stack() is None:
+                self.figure.canvas.toolbar.push_current()
 
     def _button_release(self, event):
         self.button_pressed = None
+        toolbar = getattr(self.figure.canvas, "toolbar")
+        if toolbar:
+            self.figure.canvas.toolbar.push_current()
+
+    def _get_view(self):
+        # docstring inherited
+        return (self.get_xlim(), self.get_ylim(), self.get_zlim(),
+                self.elev, self.azim)
+
+    def _set_view(self, view):
+        # docstring inherited
+        xlim, ylim, zlim, elev, azim = view
+        self.set(xlim=xlim, ylim=ylim, zlim=zlim)
+        self.elev = elev
+        self.azim = azim
 
     def format_zdata(self, z):
         """
